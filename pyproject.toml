@@ -1,0 +1,51 @@
+[tool.poetry]
+name = "microservice-system"
+version = "0.1.0"
+description = ""
+authors = ["Artem Jasan <artjasan@gmail.com>"]
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.103.2"
+uvicorn = "^0.23.2"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.9.1"
+pre-commit = "^3.5.0"
+mypy = "^1.6.0"
+ruff = "^0.0.292"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.black]
+line_length = 120
+include = '\.pyi?$'
+exclude = '''
+/(
+  | \.venv
+  | migrations
+)/
+'''
+
+[tool.mypy]
+files = "src"
+ignore_missing_imports = true
+exclude = '''
+(?x)^(
+  | .*/migrations/.*
+  | .*/tests/.*
+)$
+'''
+
+[tool.ruff]
+select = ["E", "F", "B", "I001", "I002"]
+line-length = 120
+ignore = ["B904"]
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["E402"]
