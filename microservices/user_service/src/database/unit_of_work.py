@@ -23,6 +23,8 @@ import typing as t
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 
+from microservices.user_service.src.repository.string_repositories import StringPostgresRepository
+
 
 class UnitOfWork(abc.ABC):
     """Abstraction over DB connection."""
@@ -47,6 +49,10 @@ class PsqlUnitOfWork(UnitOfWork):
             return False
 
         return True
+
+    @property
+    def string_repository(self) -> StringPostgresRepository:
+        return StringPostgresRepository(self._connection)
 
 
 @contextlib.asynccontextmanager

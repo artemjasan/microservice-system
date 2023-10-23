@@ -162,6 +162,7 @@ celerybeat.pid
 env/
 venv/
 ENV/
+!.env.example
 
 # Spyder project settings
 .spyderproject
@@ -190,7 +191,5 @@ dmypy.json
 # Cython debug symbols
 cython_debug/
 
-# Ignore all .env files
-.env*
 
 .DS_Store

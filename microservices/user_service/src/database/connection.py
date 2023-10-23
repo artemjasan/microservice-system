@@ -1,4 +1,3 @@
-"""Connection utilities for DB engine."""
 import contextlib
 import typing as t
 

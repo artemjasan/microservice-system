@@ -1,4 +1,3 @@
-"""API server entrypoint."""
 import contextlib
 import functools
 import logging
@@ -18,7 +17,8 @@ LOGGER = logging.getLogger(__name__)
 
 @contextlib.asynccontextmanager
 async def default_api_lifespan(app: FastAPI, settings: ApiSettings) -> t.AsyncIterator[None]:
-    """Default lifespan function for API server.
+    """
+    Default lifespan function for API server.
 
     This function is responsible for initializing all services required
     by the API server and putting them to Dependency Injeciton
@@ -53,16 +53,14 @@ LifespanCallable = t.Callable[[FastAPI, ApiSettings], t.AsyncContextManager[None
 
 
 def make_app(lifespan_callable: LifespanCallable | None = None) -> FastAPI:
-    """API factory.
+    """
+    API factory.
 
     Lifespan function can be passed so that we can alter what
     components are put into the API server.
-
-    Todo:
-        * initialize logging properly
     """
     settings = ApiSettings()
-    init_sentry(settings.sentry)
+    # init_sentry(settings.sentry)
     app = FastAPI(
         lifespan=functools.partial(
             lifespan_callable or default_api_lifespan,

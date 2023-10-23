@@ -1,5 +1,5 @@
-"""Implement Dependency Injection container for API."""
 import contextlib
+import typing
 import typing as t
 
 from microservices.user_service.src.database.unit_of_work import UnitOfWork, UowFactory
@@ -17,3 +17,8 @@ class ApiContainer:
         """Provide UnitOfWork."""
         async with self._uow_factory() as uow:
             yield uow
+
+    @property
+    async def kafka_producer(self) -> typing.Any:  # TODO: Add correct return type
+        """Provide KafkaProducer."""
+        raise NotImplementedError()
