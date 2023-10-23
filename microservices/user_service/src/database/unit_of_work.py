@@ -23,7 +23,7 @@ import typing as t
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 
-from microservices.user_service.src.repository.string_repositories import StringPostgresRepository
+from src.repository.string_repositories import StringPostgresRepository
 
 
 class UnitOfWork(abc.ABC):

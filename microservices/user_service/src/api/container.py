@@ -2,7 +2,7 @@ import contextlib
 import typing
 import typing as t
 
-from microservices.user_service.src.database.unit_of_work import UnitOfWork, UowFactory
+from src.database.unit_of_work import UnitOfWork, UowFactory
 
 
 class ApiContainer:
@@ -21,4 +21,5 @@ class ApiContainer:
     @property
     async def kafka_producer(self) -> typing.Any:  # TODO: Add correct return type
         """Provide KafkaProducer."""
-        raise NotImplementedError()
+        return None  # TODO: Add correct return value
+        # raise NotImplementedError()

@@ -3,8 +3,8 @@ import typing as t
 
 import fastapi
 
-from microservices.user_service.src.api.dependencies import unit_of_work as unit_of_work_dependency
-from microservices.user_service.src.database.unit_of_work import UnitOfWork
+from src.api.dependencies import unit_of_work as unit_of_work_dependency
+from src.database.unit_of_work import UnitOfWork
 
 healthcheck_router = fastapi.APIRouter(
     prefix="/-",

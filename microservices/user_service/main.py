@@ -10,7 +10,7 @@ from src.api.container import ApiContainer
 from src.api.routers import ALL_ROUTERS
 from src.database.connection import psql_engine_ctx
 from src.database.unit_of_work import psql_uow_factory
-from microservices.user_service.settings import ApiSettings, SentrySettings
+from settings import ApiSettings, SentrySettings
 
 LOGGER = logging.getLogger(__name__)
 

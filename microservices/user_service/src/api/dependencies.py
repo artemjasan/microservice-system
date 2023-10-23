@@ -2,9 +2,9 @@ import typing as t
 
 import fastapi
 
-from microservices.user_service.src.api.container import ApiContainer
-from microservices.user_service.src.database.unit_of_work import UnitOfWork
-from microservices.user_service.src.services.string_services import StringService
+from src.api.container import ApiContainer
+from src.database.unit_of_work import UnitOfWork
+from src.services.string_services import StringService
 
 
 async def unit_of_work(request: fastapi.Request) -> t.AsyncIterator[UnitOfWork]:

@@ -20,9 +20,7 @@ class StringPostgresRepository(StringRepository):
         self._session = session
 
     def register_string(self, string: str) -> None:
-        query = insert().values(string=string).retuning(StringTable)
-
-        self._session.execute(query)
+        pass
 
     def get_event_status(self, id_: uuid.UUID) -> typing.Any:
         pass

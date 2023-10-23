@@ -1,7 +1,7 @@
 import typing
 import uuid
 
-from microservices.user_service.src.repository.string_repositories import StringRepository
+from src.repository.string_repositories import StringRepository
 
 
 class StringService:

@@ -4,7 +4,7 @@ import typing as t
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncEngine, create_async_engine
 
-from microservices.user_service.settings import PostgresSettings
+from settings import PostgresSettings
 
 
 def dsn_from_settings(settings: PostgresSettings) -> str:

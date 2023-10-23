@@ -1,0 +1,67 @@
+#version: "3.10"
+#
+#x-volumes: &volumes
+#  volumes:
+#    - ./:/app:z
+#
+#x-local_service: &local_service
+#  build:
+#    dockerfile: ./microservices/user_services/Dockerfile
+#    context: .
+#  image: microservice_system_dev:latest
+#
+#
+#services:
+#  api:
+#    <<: [*local_service, *volumes]
+#    environment:
+#      PSQL_HOST: "postgres"
+#      PSQL_PORT: 5432
+#      PSQL_DB: "microservice_system_db"
+#      PSQL_USER: "microservice_system_user"
+#      PSQL_PASSWORD: "microservice_system_pwd"
+#    command: uvicorn microservice_system.main:make_app --factory --host 0.0.0.0 --port 8080 --reload
+#    depends_on:
+#      - postgres
+#
+#  tests-unit:
+#    <<: [*local_service, *volumes]
+#    environment: {}
+#    command: "poetry run pytest tests/unit --cov=."
+#
+#  tests-integration:
+#    <<: [*local_service, *volumes]
+#    environment:
+#      PSQL_HOST: "postgres"
+#      PSQL_PORT: 5432
+#      PSQL_DB: "microservice_system_dev"
+#      PSQL_USER: "microservice_system_user"
+#      PSQL_PASSWORD: "microservice_system_pwd"
+#    command: "poetry run pytest tests/integration"
+#    depends_on:
+#      - postgres
+#      - alembic_migrations
+#
+#
+#  postgres:
+#    image: "postgres:15.1"
+#    command: ["postgres", "-c", "log_statement=all"]
+#    ports:
+#      - "5432:5432"
+#    environment:
+#      POSTGRES_DB: "microservice_system_dev"
+#      POSTGRES_USER: "microservice_system_user"
+#      POSTGRES_PASSWORD: "microservice_system_pwd"
+#
+#  alembic_migrations:
+#    <<: [*local_service, *volumes]
+#    environment:
+#      PSQL_HOST: "postgres"
+#      PSQL_PORT: 5432
+#      PSQL_DB: "microservice_system_dev"
+#      PSQL_USER: "microservice_system_user"
+#      PSQL_PASSWORD: "microservice_system_pwd"
+#    entrypoint: "alembic"
+#    command: "upgrade head"
+#    depends_on:
+#      - postgres
