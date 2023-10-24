@@ -10,7 +10,7 @@ from settings import PostgresSettings
 def dsn_from_settings(settings: PostgresSettings) -> str:
     """Prepare connections string for PostgreSQL."""
     protocol = "postgresql+asyncpg"
-    return f"{protocol}://{settings.user}:{settings.password}@{settings.host}:{settings.port!s}/{settings.db}"
+    return f"{protocol}://{settings.USER}:{settings.PASSWORD}@{settings.HOST}:{settings.PORT!s}/{settings.DB}"
 
 
 @contextlib.asynccontextmanager
