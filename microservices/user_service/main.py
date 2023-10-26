@@ -70,5 +70,4 @@ def make_app(lifespan_callable: LifespanCallable | None = None) -> FastAPI:
 
     for router in ALL_ROUTERS:
         app.include_router(router)
-
     return app

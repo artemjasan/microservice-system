@@ -1,0 +1,2 @@
+class StringItemNotFoundError(Exception):
+    pass

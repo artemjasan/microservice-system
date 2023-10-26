@@ -1,5 +1,4 @@
 import contextlib
-import typing
 import typing as t
 
 from src.database.unit_of_work import UnitOfWork, UowFactory
@@ -8,7 +7,10 @@ from src.database.unit_of_work import UnitOfWork, UowFactory
 class ApiContainer:
     """DI container for backend API."""
 
-    def __init__(self, uow_factory: UowFactory) -> None:
+    def __init__(
+        self,
+        uow_factory: UowFactory,
+    ) -> None:
         self._uow_factory = uow_factory
 
     @property
@@ -17,9 +19,3 @@ class ApiContainer:
         """Provide UnitOfWork."""
         async with self._uow_factory() as uow:
             yield uow
-
-    @property
-    async def kafka_producer(self) -> typing.Any:  # TODO: Add correct return type
-        """Provide KafkaProducer."""
-        return None  # TODO: Add correct return value
-        # raise NotImplementedError()

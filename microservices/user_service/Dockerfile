@@ -14,6 +14,7 @@ COPY ./poetry.lock /app
 
 # Install system-level dependencies
 RUN apk add --no-cache build-base libffi-dev bash
+RUN apk add --no-cache netcat-openbsd
 
 WORKDIR /app
 

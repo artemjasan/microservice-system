@@ -6,9 +6,9 @@ from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
-from ..src.database.connection import dsn_from_settings
-from ..src.database.schemas.base import metadata
-from ..settings import DbMigrationSettings
+from src.database.connection import dsn_from_settings
+from src.database.schemas.base import metadata
+from settings import DbMigrationSettings
 
 config = context.config
 

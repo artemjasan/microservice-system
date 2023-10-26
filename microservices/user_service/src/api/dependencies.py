@@ -18,4 +18,4 @@ async def string_service(request: fastapi.Request) -> t.AsyncIterator[StringServ
     """Dependency for StringService."""
     container: ApiContainer = request.app.state.container
     async with container.uow as uow:
-        yield StringService(uow.string_repository, container.kafka_producer)
+        yield StringService(uow.string_repository)

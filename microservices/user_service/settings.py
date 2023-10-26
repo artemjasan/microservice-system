@@ -29,6 +29,18 @@ class SentrySettings(BaseSettings):
     environment: str = "production"
 
 
+# class KafkaSettings(BaseSettings):
+#     """Settings for Kafka."""
+#
+#     model_config = SettingsConfigDict(
+#         env_prefix="KAFKA_",
+#     )
+#
+#     bootstrap_servers: str = "kafka:9092"
+#     producer_topic: str = "test-topic-1"
+#     consumer_topic: str = "test-topic-2"
+
+
 class ApiSettings(BaseSettings):
     """Settings for API."""
 
@@ -38,7 +50,10 @@ class ApiSettings(BaseSettings):
     sentry: SentrySettings = Field(
         default_factory=SentrySettings,
     )
-
+    # kafka: KafkaSettings = Field(
+    #     default_factory=KafkaSettings,
+    # )
+    #
 
 class DbMigrationSettings(BaseSettings):
     """Settings for alembic, Db migration tool."""

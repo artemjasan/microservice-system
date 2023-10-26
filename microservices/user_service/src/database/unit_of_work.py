@@ -1,21 +1,4 @@
-"""Implementation of Unit of Work for database.
-
-This provides abstraction over DB connection.
-
-How to use UnitOfWork:
-    * provide repositories as properties
-
-        class PsqlUnitOfWork(UnitOfWork):
-            \"""PostgreSQL implementation of Unit of Work.\"""
-
-            def __init__(self, connection: AsyncConnection) -> None:
-                self._connection = connection
-
-            @property
-            def my_repository(self) -> PsqlMyRepository:
-                \"""Return properly initialized repository for JobProgress data.\"""
-                return PsqlMyRepository(self._connection)
-"""
+"""Implementation of Unit of Work for database."""
 import abc
 import contextlib
 import typing as t
