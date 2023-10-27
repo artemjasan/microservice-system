@@ -1,7 +1,7 @@
 import uuid
 
-from src.repository.string_repositories import StringRepository
 from src.domain.models import StringItem
+from src.repository.string_repositories import StringRepository
 
 
 class StringService:

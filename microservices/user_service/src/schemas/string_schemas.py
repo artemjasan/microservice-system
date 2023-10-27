@@ -1,10 +1,10 @@
 import typing
-
 import uuid
+
 from pydantic import BaseModel
 
-from src.domain.models import StringItem
 from src.domain.application_enums import StringItemStatus
+from src.domain.models import StringItem
 
 
 class StringIDSchema(BaseModel):

@@ -3,8 +3,8 @@ from uuid import UUID
 import fastapi
 
 from src.api.dependencies import string_service as string_service_dependency
+from src.schemas.string_schemas import StringIDSchema, StringItemSchema
 from src.services.string_services import StringService
-from src.schemas.string_schemas import StringItemSchema, StringIDSchema
 
 string_router = fastapi.APIRouter(
     prefix="/string",

@@ -1,5 +1,5 @@
 from aio_pika import Message
-from aio_pika.abc import AbstractChannel, AbstractQueue, AbstractIncomingMessage
+from aio_pika.abc import AbstractChannel, AbstractIncomingMessage, AbstractQueue
 
 
 def reverse(body: str) -> str:
@@ -15,8 +15,8 @@ async def get_required_queue(channel: AbstractChannel, queue_name: str, auto_del
 async def send_message(channel: AbstractChannel, queue: AbstractQueue, message: str) -> None:
     """Send message to queue."""
     await channel.default_exchange.publish(
-        Message(
-            message.encode("utf-8")), routing_key=queue.name,
+        Message(message.encode("utf-8")),
+        routing_key=queue.name,
     )
 
 
@@ -25,4 +25,4 @@ async def process_message(message: AbstractIncomingMessage) -> None:
     async with message.process():
         body = message.body.decode("utf-8")
         inverted_body = reverse(body)
-
+        print(f" [x] Received {inverted_body}")

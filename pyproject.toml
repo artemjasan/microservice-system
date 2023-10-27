@@ -55,10 +55,8 @@ select = [
     "F",   # flake8 / pyflakes
     "E",   # flake8 / pycodestyle, errors
     "W",   # flake8 / pycodestyle, warning
-    "C90", # McCabe
     "I",   # isort
     "N",   # pep8 naming, might already by checked by PyLint
-    "D",   # pydocstyle
     "UP",  # pyupgrade
     "S",   # bandit
     "A",   # builtins
@@ -66,10 +64,6 @@ select = [
 ]
 extend-ignore = [
     "A003",  # builtin-attribute-shadowing
-    "D105",  # undocumented-magic-method
-    "D107",  # undocumented-public-init
-    "D203",  # one-blank-line-before-class
-    "D213",  # multi-line-summary-second-line
 ]
 
 [tool.ruff.isort]
@@ -77,9 +71,6 @@ combine-as-imports = true
 
 [tool.ruff.mccabe]
 max-complexity = 5
-
-[tool.ruff.pydocstyle]
-convention = "google"
 
 [tool.ruff.per-file-ignores]
 "tests/**" = ["S101"]  # don't check asserts in tests
@@ -98,6 +89,6 @@ include = '\.pyi?$'
 exclude = '''
 /(
   | \.venv
-  | migrations
+  | alembic
 )/
 '''

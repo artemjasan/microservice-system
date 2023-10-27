@@ -15,6 +15,7 @@ class PostgresSettings(BaseSettings):
     DB: str = "postgres"
     USER: str = "postgres"
     PASSWORD: str = "postgres"
+    POOL_SIZE: int = 10
 
 
 class SentrySettings(BaseSettings):

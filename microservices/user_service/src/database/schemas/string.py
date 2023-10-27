@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, String, text
+from sqlalchemy import Column, String, Table, text
 from sqlalchemy_utils import UUIDType
 
 from .base import metadata

@@ -2,7 +2,6 @@ import asyncio
 import uuid
 
 from aio_pika import Message, connect
-
 from settings import ApiSettings
 from src.eventbus.connection import dsn_from_settings
 
@@ -29,8 +28,8 @@ async def main() -> None:
                     message.encode(),
                     message_id=str(uuid.uuid4()),
                 ),
-            routing_key=queue.name
-        )
+                routing_key=queue.name,
+            )
             print(f"[x] Sent {message}")
             await asyncio.sleep(5)
 

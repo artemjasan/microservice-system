@@ -2,14 +2,12 @@ import asyncio
 
 from aio_pika import connect
 from aio_pika.abc import AbstractIncomingMessage
-
 from settings import ApiSettings
 from src.eventbus.connection import dsn_from_settings
 
 
 async def on_message(message: AbstractIncomingMessage) -> None:
-    """
-    on_message doesn't necessarily have to be defined as async.
+    """on_message doesn't necessarily have to be defined as async.
     Here it is to show that it's possible.
     """
     print(" [x] Received message %r" % message)

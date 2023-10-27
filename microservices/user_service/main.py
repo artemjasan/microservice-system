@@ -5,20 +5,18 @@ import typing as t
 
 import sentry_sdk
 from fastapi import FastAPI
-
+from settings import ApiSettings, SentrySettings
 from src.api.container import ApiContainer
 from src.api.routers import ALL_ROUTERS
 from src.database.connection import psql_engine_ctx
 from src.database.unit_of_work import psql_uow_factory
-from settings import ApiSettings, SentrySettings
 
 LOGGER = logging.getLogger(__name__)
 
 
 @contextlib.asynccontextmanager
 async def default_api_lifespan(app: FastAPI, settings: ApiSettings) -> t.AsyncIterator[None]:
-    """
-    Default lifespan function for API server.
+    """Default lifespan function for API server.
 
     This function is responsible for initializing all services required
     by the API server and putting them to Dependency Injeciton
@@ -53,8 +51,7 @@ LifespanCallable = t.Callable[[FastAPI, ApiSettings], t.AsyncContextManager[None
 
 
 def make_app(lifespan_callable: LifespanCallable | None = None) -> FastAPI:
-    """
-    API factory.
+    """API factory.
 
     Lifespan function can be passed so that we can alter what
     components are put into the API server.

@@ -1,10 +1,9 @@
 import asyncio
 
-from aio_pika import connect, Message
+from aio_pika import Message, connect
 from aio_pika.abc import AbstractIncomingMessage
-
-from settings import ApiSettings, dsn_from_settings
-from services import reverse, get_required_queue
+from reverse_settings import ReverseSettings, dsn_from_settings
+from services import get_required_queue, reverse
 
 
 async def on_message(message: AbstractIncomingMessage, channel, target_queue) -> None:
@@ -16,7 +15,7 @@ async def on_message(message: AbstractIncomingMessage, channel, target_queue) ->
     )
 
 
-async def main(settings: ApiSettings) -> None:
+async def main(settings: ReverseSettings) -> None:
     connection = await connect(dsn_from_settings(settings.rabbitmq))
     async with connection:
         channel = await connection.channel()
@@ -29,4 +28,4 @@ async def main(settings: ApiSettings) -> None:
 
 
 if __name__ == "__main__":
-    asyncio.run(main(ApiSettings()))
+    asyncio.run(main(ReverseSettings()))

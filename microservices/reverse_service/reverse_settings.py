@@ -16,7 +16,7 @@ class RabbitMQSettings(BaseSettings):
     PROCESSED_QUEUE: str = "processed"
 
 
-class ApiSettings(BaseSettings):
+class ReverseSettings(BaseSettings):
     """Settings for API."""
 
     rabbitmq: RabbitMQSettings = Field(

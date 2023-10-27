@@ -2,13 +2,12 @@ import asyncio
 from logging.config import fileConfig
 
 from alembic import context
+from settings import DbMigrationSettings
 from sqlalchemy import pool
 from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
-
 from src.database.connection import dsn_from_settings
 from src.database.schemas.base import metadata
-from settings import DbMigrationSettings
 
 config = context.config
 
@@ -59,7 +58,6 @@ async def run_async_migrations() -> None:
     and associate a connection with the context.
 
     """
-
     settings = _get_migration_settings()
     connectable = async_engine_from_config(
         config.get_section(config.config_ini_section, {}),
@@ -76,7 +74,6 @@ async def run_async_migrations() -> None:
 
 def run_migrations_online() -> None:
     """Run migrations in 'online' mode."""
-
     asyncio.run(run_async_migrations())
 
 

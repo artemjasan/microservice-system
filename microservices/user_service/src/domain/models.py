@@ -1,5 +1,4 @@
 import dataclasses
-
 import uuid
 
 from src.domain.application_enums import StringItemStatus

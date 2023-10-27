@@ -1,12 +1,12 @@
 import abc
 import uuid
 
-from sqlalchemy.ext.asyncio import AsyncConnection
 from sqlalchemy import insert, select
+from sqlalchemy.ext.asyncio import AsyncConnection
 
 from src.database.schemas.string import string_table
-from src.domain.models import StringItem
 from src.domain.exceptions import StringItemNotFoundError
+from src.domain.models import StringItem
 
 
 class StringRepository(abc.ABC):
