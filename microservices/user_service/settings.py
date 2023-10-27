@@ -1,5 +1,4 @@
 """Settings loader for application."""
-
 from pydantic import Field
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -29,16 +28,18 @@ class SentrySettings(BaseSettings):
     environment: str = "production"
 
 
-# class KafkaSettings(BaseSettings):
-#     """Settings for Kafka."""
-#
-#     model_config = SettingsConfigDict(
-#         env_prefix="KAFKA_",
-#     )
-#
-#     bootstrap_servers: str = "kafka:9092"
-#     producer_topic: str = "test-topic-1"
-#     consumer_topic: str = "test-topic-2"
+class RabbitMQSettings(BaseSettings):
+    """Settings for RabbitMQ"""
+
+    model_config = SettingsConfigDict(
+        env_prefix="RABBITMQ_",
+    )
+
+    HOST: str = "localhost"
+    DEFAULT_USER: str = "guest"
+    DEFAULT_PASS: str = "guest"
+    ORIGIN_QUEUE: str = "origin"
+    PROCESSED_QUEUE: str = "processed"
 
 
 class ApiSettings(BaseSettings):
@@ -50,10 +51,11 @@ class ApiSettings(BaseSettings):
     sentry: SentrySettings = Field(
         default_factory=SentrySettings,
     )
-    # kafka: KafkaSettings = Field(
-    #     default_factory=KafkaSettings,
-    # )
-    #
+
+    rabbitmq: RabbitMQSettings = Field(
+        default_factory=RabbitMQSettings,
+    )
+
 
 class DbMigrationSettings(BaseSettings):
     """Settings for alembic, Db migration tool."""

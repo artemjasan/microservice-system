@@ -3,6 +3,9 @@ import asyncio
 from aio_pika import connect
 from aio_pika.abc import AbstractIncomingMessage
 
+from settings import ApiSettings
+from src.eventbus.connection import dsn_from_settings
+
 
 async def on_message(message: AbstractIncomingMessage) -> None:
     """
@@ -18,8 +21,10 @@ async def on_message(message: AbstractIncomingMessage) -> None:
 
 
 async def main() -> None:
+    settings = ApiSettings()
+
     # Perform connection
-    connection = await connect("amqp://guest:guest@rabbitmq/")
+    connection = await connect(dsn_from_settings(settings.rabbitmq))
     async with connection:
         # Creating a channel
         channel = await connection.channel()

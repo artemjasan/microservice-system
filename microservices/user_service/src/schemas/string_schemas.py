@@ -22,4 +22,3 @@ class StringItemSchema(StringIDSchema):
     @classmethod
     def get_from_domain(cls, domain: StringItem) -> typing.Self:
         return cls(uuid=domain.uuid, body=domain.body, status=domain.status)
-

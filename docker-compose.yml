@@ -7,33 +7,35 @@ x-base-user-service: &base-user-service
   volumes:
     - ./microservices/user_service:/app
     - ./microservices/user_service/alembic:/app/alembic
+  env_file:
+    - .env.postgres.example
+  depends_on:
+    - postgres
+    - rabbitmq
 
 
 services:
   user_service:
     <<: *base-user-service
-    env_file:
-      - ./.env.example
     command: uvicorn main:make_app --factory --host 0.0.0.0 --port 8080 --reload
     ports:
       - "8080:8080"
-    depends_on:
-      - postgres
-      - rabbitmq
 
   user_service_publisher:
     <<: *base-user-service
-    command: sh -c "sleep 10 && python publisher.py"
-    depends_on:
-      - postgres
-      - rabbitmq
+    command: sh -c "sleep 5 && python publisher.py"
+    env_file:
+      - .env.postgres.example
+      - .env.rabbitmq.example
+
 
   user_service_consumer:
     <<: *base-user-service
-    command: sh -c "sleep 10 && python consumer.py"
-    depends_on:
-      - postgres
-      - rabbitmq
+    command: sh -c "sleep 5 && python consumer.py"
+    env_file:
+      - .env.postgres.example
+      - .env.rabbitmq.example
+
 
   postgres:
     image: "postgres:15.1"
@@ -45,7 +47,7 @@ services:
       timeout: 20s
       retries: 3
     env_file:
-      - ./.env.example
+      - .env.postgres.example
     volumes:
       - postgres-data:/var/lib/postgresql/data
 

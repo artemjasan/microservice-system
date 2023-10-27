@@ -65,5 +65,3 @@ class StringPostgresRepository(StringRepository):
             return StringItem(uuid=row.uuid, body=row.body, status=row.status)
 
         raise StringItemNotFoundError(f"String item with id: {id_} not found")
-
-

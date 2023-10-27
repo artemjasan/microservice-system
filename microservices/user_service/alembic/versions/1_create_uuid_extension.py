@@ -5,7 +5,7 @@ Created: 2022-12-19 22:05:25.489383+00:00
 from alembic import op
 
 # Revision identifiers, used by Alembic.
-revision = '774b416c247d'
+revision = "774b416c247d"
 down_revision = None
 branch_labels = None
 depends_on = None

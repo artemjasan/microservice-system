@@ -30,5 +30,3 @@ async def get_event_status(
 ) -> StringItemSchema:
     response = await string_service.get_string(uuid)
     return StringItemSchema.get_from_domain(response)
-
-

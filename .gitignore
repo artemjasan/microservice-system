@@ -162,7 +162,8 @@ celerybeat.pid
 env/
 venv/
 ENV/
-!.env.example
+!.env.postgres.example
+!.env.rabbitmq.example
 
 # Spyder project settings
 .spyderproject
