@@ -18,13 +18,13 @@ async def consumer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
 async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
     async with connection:
         channel = await connection.channel()
-        reverse_queue = await channel.declare_queue(queue_name)
+        processed_queue = await channel.declare_queue(queue_name)
 
         while True:
             data: ServiceMessage = await queue.get()
             await channel.default_exchange.publish(
                 Message(**data.convert_to_rabbitmq_message_dict()),
-                routing_key=reverse_queue.name,
+                routing_key=processed_queue.name,
             )
 
 
