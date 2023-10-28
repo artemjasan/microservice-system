@@ -1,4 +1,6 @@
 import asyncio
+import signal
+import typing
 
 from aio_pika import Message
 from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
@@ -22,10 +24,16 @@ async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
         channel = await connection.channel()
         processed_queue = await channel.declare_queue(queue_name)
 
-        while True:
+        loop = asyncio.get_event_loop()
+        stop_signal = loop.create_future()
+
+        loop.add_signal_handler(signal.SIGINT, _signal_handler(stop_signal))
+        loop.add_signal_handler(signal.SIGTERM, _signal_handler(stop_signal))
+
+        while not stop_signal.done():
             data: ServiceMessage = await queue.get()
             await channel.default_exchange.publish(
-                Message(**data.convert_to_rabbitmq_message_dict()),
+                Message(**data.serialize()),
                 routing_key=processed_queue.name,
             )
 
@@ -35,3 +43,10 @@ async def _on_message(message: AbstractIncomingMessage, queue: asyncio.Queue) ->
     service_message.revert_body()
     await asyncio.sleep(5)
     await queue.put(service_message)
+
+
+def _signal_handler(stop_signal_: asyncio.Future) -> typing.Callable[[], None]:
+    def handler():
+        stop_signal_.set_result(None)
+
+    return handler
