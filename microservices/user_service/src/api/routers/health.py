@@ -1,4 +1,3 @@
-"""Health-check endpoints."""
 import typing as t
 
 import fastapi

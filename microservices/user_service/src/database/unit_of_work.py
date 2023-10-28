@@ -1,4 +1,3 @@
-"""Implementation of Unit of Work for database."""
 import abc
 import contextlib
 import typing as t

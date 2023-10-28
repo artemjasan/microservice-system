@@ -1,11 +1,14 @@
 import asyncio
+import logging
 import signal
 import typing
 
 from aio_pika import Message
 from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 
-from src.message_schemas import ServiceMessage
+from reverse_src.message_schemas import ServiceMessage
+
+LOGGER = logging.getLogger(__name__)
 
 
 async def consumer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
@@ -17,6 +20,8 @@ async def consumer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
             async for message in queue_iter:
                 async with message.process() as processed_message:
                     await _on_message(processed_message, queue)
+
+        LOGGER.info("Consumer task stopped or interrupted")
 
 
 async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
@@ -36,6 +41,7 @@ async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
                 Message(**data.serialize()),
                 routing_key=processed_queue.name,
             )
+        LOGGER.info("Producer task stopped or interrupted")
 
 
 async def _on_message(message: AbstractIncomingMessage, queue: asyncio.Queue) -> None:

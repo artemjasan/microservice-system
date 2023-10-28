@@ -1,8 +1,11 @@
 import asyncio
+import logging
 
 import aio_pika
 from reverse_settings import ReverseSettings, dsn_from_settings
-from src.handlers import consumer, producer
+from reverse_src.handlers import consumer, producer
+
+LOGGER = logging.getLogger(__name__)
 
 
 async def main(settings: ReverseSettings) -> None:
@@ -17,4 +20,5 @@ async def main(settings: ReverseSettings) -> None:
 
 
 if __name__ == "__main__":
+    LOGGER.info("Started reverse service")
     asyncio.run(main(ReverseSettings()))
