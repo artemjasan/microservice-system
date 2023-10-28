@@ -45,17 +45,18 @@ services:
       rabbitmq:
           condition: service_healthy
 
-#  reverse_service:
-#    build:
-#      context: .
-#      dockerfile: ./microservices/reverse_service/Dockerfile
-#    volumes:
-#      - ./microservices/reverse_service:/app
-#    command: sh -c "sleep 5 && python main.py"
-#    depends_on:
-#      rabbitmq:
-#        condition: service_healthy
-
+  reverse_service:
+    build:
+      context: .
+      dockerfile: ./microservices/reverse_service/Dockerfile
+    volumes:
+      - ./microservices/reverse_service:/app
+    command: python main.py
+    env_file:
+      - .env.rabbitmq.example
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
   postgres:
     image: "postgres:15.1"

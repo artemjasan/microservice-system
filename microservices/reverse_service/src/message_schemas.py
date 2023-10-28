@@ -1,9 +1,11 @@
 import uuid
+
 from pydantic import BaseModel
 
 
 class ServiceMessage(BaseModel):
     """Message for inter-service communication."""
+
     uuid: uuid.UUID
     body: str
 

@@ -1,7 +1,7 @@
 import asyncio
 
-from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 from aio_pika import Message
+from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
 
 from src.message_schemas import ServiceMessage
 
@@ -11,8 +11,10 @@ async def consumer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
         channel = await connection.channel()
         origin_queue = await channel.declare_queue(queue_name)
 
-        # Start listening the source queue
-        await origin_queue.consume(lambda message: _on_message(message, queue))
+        async with origin_queue.iterator() as queue_iter:
+            async for message in queue_iter:
+                async with message.process() as processed_message:
+                    await _on_message(processed_message, queue)
 
 
 async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
@@ -29,8 +31,7 @@ async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
 
 
 async def _on_message(message: AbstractIncomingMessage, queue: asyncio.Queue) -> None:
-    async with message.process():
-        service_message_obj = ServiceMessage(uuid=message.message_id, body=message.body.decode("utf-8"))
-        service_message_obj.revert_body()
-        await asyncio.sleep(5)
-        await queue.put(service_message_obj)
+    service_message = ServiceMessage(uuid=message.message_id, body=message.body.decode("utf-8"))
+    service_message.revert_body()
+    await asyncio.sleep(5)
+    await queue.put(service_message)

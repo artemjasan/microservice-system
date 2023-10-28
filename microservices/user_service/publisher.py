@@ -17,7 +17,7 @@ async def main() -> None:
         channel = await connection.channel()
 
         # Declaring queue
-        queue = await channel.declare_queue("hello")
+        queue = await channel.declare_queue(settings.rabbitmq.ORIGIN_QUEUE)
         counter = 0
         while True:
             counter += 1
@@ -31,7 +31,7 @@ async def main() -> None:
                 routing_key=queue.name,
             )
             print(f"[x] Sent {message}")
-            await asyncio.sleep(5)
+            await asyncio.sleep(2)
 
 
 if __name__ == "__main__":

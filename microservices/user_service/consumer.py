@@ -28,7 +28,7 @@ async def main() -> None:
         channel = await connection.channel()
 
         # Declaring queue
-        queue = await channel.declare_queue("hello")
+        queue = await channel.declare_queue(settings.rabbitmq.PROCESSED_QUEUE)
 
         # Start listening the queue with name 'hello'
         await queue.consume(on_message, no_ack=True)
