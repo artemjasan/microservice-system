@@ -5,7 +5,7 @@ import aio_pika
 from reverse_settings import ReverseSettings, dsn_from_settings
 from reverse_src.handlers import consumer, producer
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger("ReverseService")
 
 
 async def main(settings: ReverseSettings) -> None:
