@@ -5,7 +5,7 @@ import typing as t
 import sqlalchemy as sa
 from sqlalchemy.ext.asyncio import AsyncConnection, AsyncEngine
 
-from src.repository.string_repositories import StringPostgresRepository
+from src.repository.string_repositories import StringRepository, StringPostgresRepository
 
 
 class UnitOfWork(abc.ABC):
@@ -14,6 +14,11 @@ class UnitOfWork(abc.ABC):
     @abc.abstractmethod
     async def is_ready(self) -> bool:
         """Check if DB connection is ready."""
+        raise NotImplementedError()
+
+    @property
+    @abc.abstractmethod
+    def string_repository(self) -> StringRepository:
         raise NotImplementedError()
 
 
