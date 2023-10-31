@@ -1,40 +1,32 @@
 import asyncio
-import contextlib
 import logging
 import signal
 import typing
 
-from aio_pika import Message, connect
-from aio_pika.abc import AbstractConnection, AbstractIncomingMessage
+from aio_pika import Message
+from aio_pika.abc import AbstractIncomingMessage
 
+from reverse_src.dependencies import DIContainer
 from reverse_src.message_schemas import ServiceMessage
-from reverse_settings import ReverseSettings, dsn_from_settings
 
 LOGGER = logging.getLogger(__name__)
 
 
-@contextlib.asynccontextmanager
-async def init_rmq_connection(settings: ReverseSettings) -> typing.AsyncContextManager[AbstractConnection]:
-    async with contextlib.AsyncExitStack() as stack:
-        connection = await stack.enter_async_context(await connect(dsn_from_settings(settings.rabbitmq)))
-        yield connection
-
-
-async def consumer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
-    channel = await connection.channel()
-    origin_queue = await channel.declare_queue(queue_name)
+async def consumer(di_container: DIContainer) -> None:
+    channel = await di_container.rmq_connection.channel()
+    origin_queue = await channel.declare_queue(di_container.origin_queue)
 
     async with origin_queue.iterator() as queue_iter:
         async for message in queue_iter:
             async with message.process() as processed_message:
-                await _on_message(processed_message, queue)
+                await _on_message(processed_message, di_container.queue)
 
     LOGGER.info("Consumer task stopped or interrupted")
 
 
-async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_name: str) -> None:
-    channel = await connection.channel()
-    processed_queue = await channel.declare_queue(queue_name)
+async def producer(di_container: DIContainer) -> None:
+    channel = await di_container.rmq_connection.channel()
+    processed_queue = await channel.declare_queue(di_container.processed_queue)
 
     loop = asyncio.get_event_loop()
     stop_signal = loop.create_future()
@@ -43,7 +35,7 @@ async def producer(queue: asyncio.Queue, connection: AbstractConnection, queue_n
     loop.add_signal_handler(signal.SIGTERM, _signal_handler(stop_signal))
 
     while not stop_signal.done():
-        data: ServiceMessage = await queue.get()
+        data: ServiceMessage = await di_container.queue.get()
         await channel.default_exchange.publish(
             Message(**data.serialize()),
             routing_key=processed_queue.name,
