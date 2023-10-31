@@ -1,22 +1,21 @@
 import asyncio
 import logging
 
-import aio_pika
-from reverse_settings import ReverseSettings, dsn_from_settings
-from reverse_src.handlers import consumer, producer
+from reverse_settings import ReverseSettings
+from reverse_src.handlers import consumer, producer, init_rmq_connection
 
 LOGGER = logging.getLogger("ReverseService")
 
 
 async def main(settings: ReverseSettings) -> None:
-    connection = await aio_pika.connect(dsn_from_settings(settings.rabbitmq))
     queue = asyncio.Queue()
+    async with init_rmq_connection(settings) as rmq_connection:
+        tasks = [
+            asyncio.create_task(consumer(queue, rmq_connection, settings.rabbitmq.ORIGIN_QUEUE)),
+            asyncio.create_task(producer(queue, rmq_connection, settings.rabbitmq.PROCESSED_QUEUE)),
+        ]
 
-    tasks = [
-        asyncio.create_task(consumer(queue, connection, settings.rabbitmq.ORIGIN_QUEUE)),
-        asyncio.create_task(producer(queue, connection, settings.rabbitmq.PROCESSED_QUEUE)),
-    ]
-    await asyncio.gather(*tasks)
+        await asyncio.gather(*tasks)
 
 
 if __name__ == "__main__":
