@@ -2,16 +2,16 @@ import asyncio
 import logging
 
 from reverse_settings import ReverseSettings
-from reverse_src.handlers import consumer, producer
-from reverse_src.dependencies import init_di_container
+from reverse_src import handlers
+from reverse_src import dependencies
 
 LOGGER = logging.getLogger("ReverseService")
 
 
 async def main(settings: ReverseSettings) -> None:
-    async with asyncio.TaskGroup() as tg, init_di_container(settings) as di_container:
-        tg.create_task(consumer(di_container))
-        tg.create_task(producer(di_container))
+    async with asyncio.TaskGroup() as tg, dependencies.init_di_container(settings) as di_container:
+        tg.create_task(handlers.consumer(di_container))
+        tg.create_task(handlers.producer(di_container))
 
 
 if __name__ == "__main__":

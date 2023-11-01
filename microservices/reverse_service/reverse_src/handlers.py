@@ -7,7 +7,7 @@ from aio_pika import Message
 from aio_pika.abc import AbstractIncomingMessage
 
 from reverse_src.dependencies import DIContainer
-from reverse_src.message_schemas import ServiceMessage
+from reverse_src.schemas import ServiceMessage
 
 LOGGER = logging.getLogger(__name__)
 

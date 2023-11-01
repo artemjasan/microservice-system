@@ -1,5 +1,6 @@
 import asyncio
 import contextlib
+import dataclasses
 import typing
 
 from aio_pika import connect
@@ -8,18 +9,12 @@ from aio_pika.abc import AbstractConnection
 from reverse_settings import ReverseSettings, dsn_from_settings
 
 
+@dataclasses.dataclass
 class DIContainer:
-    def __init__(
-        self,
-        rmq_connection: AbstractConnection,
-        queue: asyncio.Queue,
-        origin_queue: str,
-        processed_queue: str,
-    ) -> None:
-        self.rmq_connection = rmq_connection
-        self.queue = queue
-        self.origin_queue = origin_queue
-        self.processed_queue = processed_queue
+    rmq_connection: AbstractConnection
+    queue: asyncio.Queue
+    origin_queue: str
+    processed_queue: str
 
 
 @contextlib.asynccontextmanager
