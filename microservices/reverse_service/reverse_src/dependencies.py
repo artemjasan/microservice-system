@@ -1,7 +1,7 @@
 import asyncio
 import contextlib
 import dataclasses
-import typing
+import typing as t
 
 from aio_pika import connect
 from aio_pika.abc import AbstractConnection
@@ -18,7 +18,7 @@ class DIContainer:
 
 
 @contextlib.asynccontextmanager
-async def init_di_container(settings: ReverseSettings) -> typing.AsyncIterator[DIContainer]:
+async def init_di_container(settings: ReverseSettings) -> t.AsyncIterator[DIContainer]:
     async with contextlib.AsyncExitStack() as stack:
         connection = await stack.enter_async_context(await connect(dsn_from_settings(settings.rabbitmq)))
         yield DIContainer(

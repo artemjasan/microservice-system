@@ -1,7 +1,7 @@
 import asyncio
 import logging
 import signal
-import typing
+import typing as t
 
 from aio_pika import Message
 from aio_pika.abc import AbstractIncomingMessage
@@ -50,7 +50,7 @@ async def _on_message(message: AbstractIncomingMessage, queue: asyncio.Queue) ->
     await queue.put(service_message)
 
 
-def _signal_handler(stop_signal_: asyncio.Future) -> typing.Callable[[], None]:
+def _signal_handler(stop_signal_: asyncio.Future) -> t.Callable[[], None]:
     def handler():
         stop_signal_.set_result(None)
 
